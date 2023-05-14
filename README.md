@@ -59,6 +59,15 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 - **Enable modern development workflows**: They wanted to enable modern development workflows by supporting various databases and deployment options, as well as integrating well with popular frameworks and tools.
 
 **********
+# 🤖 Setup Prisma
+
+## TOC 📋
+
+| **Steps** | **Part 1**                             | **Part 2**                                                       | **Part 3**                                 |
+|-----------|----------------------------------------|------------------------------------------------------------------|--------------------------------------------|
+|           |  [**Installation 🚀**](#installation-) | [**Prisma Schema Migrations 🚀**](#prisma-schema-migrations-)    | [**Prisma Client 🚀**](#-install-prisma)   |
+| Step 1    |                                        | [**Prisma Studio 🚀**](#prisma-studio-)                          | [**Prisma Studio 🚀**](#prisma-studio-)    |
+  
 
 ## Installation 🚀
 
