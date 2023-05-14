@@ -62,17 +62,22 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 
 ## Installation 🚀
 
+### ⚡ Create a new project
 
 - Create a new project directory and initialize it with npm:
 
 ```
 npm init -y
 ```
+### ⚡ Install Prisma
+
 - Install the Prisma CLI globally:
 
 ```
 npm install -g prisma
 ```
+### ⚡ Install Prisma & TypeScript
+
 - The type
 ```
 npm i --save-dev prisma typescript ts-node @types/node nodemon
@@ -83,6 +88,8 @@ npm i --save-dev prisma typescript ts-node @types/node nodemon
 > - ts-node is used for TypeScript execution and REPL for Node.js.
 > - @types/node is used for TypeScript definitions for Node.js.
 > - nodemon is used for automatic restarts of the server when file changes in the directory are detected.
+
+### ⚡ tsconfig.json
 
 - Create a file called tsconfig.json in the root directory of your project and add the following code to it:
 
@@ -98,6 +105,9 @@ npm i --save-dev prisma typescript ts-node @types/node nodemon
 }
 ```
 > TypeScript default configuration (tsconfig.json)
+
+### ⚡ Initialize prisma
+
 - Now hit `npx prisma init --datasource-provider mongodb` to initialize Prisma in your project. This will create a new directory called prisma with the following files:
 ```
 prisma
@@ -107,6 +117,8 @@ prisma
 > - `npx prisma init --datasource-provider mongodb` this will initialize Prisma in your project and mongodb as the database provider.
 > - schema.prisma is the main configuration file for Prisma. It contains the database connection string and other settings.
 > - .env is a file that contains environment variables for your project. It is used by Prisma to store sensitive information such as database credentials.
+
+### ⚡ Prisma Format
 
 - If you want to format prisma schema file then you can use this command `npx prisma format`
 - GO to your .env file and add your database connection string in it.
@@ -133,6 +145,9 @@ The following components make up the _base URL_ of your database:
 | Database | `DATABASE`  | Name of the database to use. If none is specified but the `authSource` option is set then the `authSource` database name is used. If neither the database in the connection string nor the `authSource` option is specified then it defaults to `admin`                                                                                                    |
 
 
+### ⚡ Structure of a connection URL
+
+
 
 > You must [percentage-encode special characters](/reference/database-reference/connection-urls#special-characters).
 
@@ -153,6 +168,11 @@ mongodb://USERNAME:PASSWORD@HOST/DATABASE?ssl=true&connectTimeoutMS=5000&maxPool
 Refer to the [MongoDB connection string documentation](https://docs.mongodb.com/manual/reference/connection-string/#connection-string-options) for a complete list of connection string arguments. There are no Prisma-specific arguments.
 
 ## Prisma Schema Migrations 🚀
+
+
+### ⚡ Prisma Migrate
+
+
 
 - Open your schema.prisma file and add the following code to it:
 
@@ -265,10 +285,18 @@ _________
 
 ## Prisma Client 🚀
 
+### ⚡ Prisma Client
+
+
 - When we create a new Prisma Client, it is generated in the `node_modules` folder at `prisma/client`. This client updates automatically whenever we make changes to our database, such as adding a new model. The client provides us with code for interacting with our database, including creating, reading, updating, and deleting data. To use the client, we need to install the `@prisma/client` library by running 
 ```
 npm i @prisma/client
 ```
+
+
+### ⚡ Prisma Generate
+
+
 
 - To manually regenerate your Prisma Client, you can run `npx prisma generate`. This command generates the client based on the specified provider and stores it in the designated location. Once generated, you can start using the Prisma Client to interact with your database."
 
@@ -287,6 +315,8 @@ const prisma = new PrismaClient()
 PS F:\mains\prisma-tutorial> 
 ````
 
+### ⚡ Prisma Client in TypeScript
+
 - Now create a new file called `script.ts` and add the following code that provided by prisma 
 
 ```ts
@@ -296,6 +326,12 @@ const prisma = new PrismaClient()
 
 > This allows us to access our Prisma Client.We can use the `prisma.user` method to interact with the `User` table we created. 
 For example, we can use the `findFirst` method to find the first user based on specified criteria `prisma.user.findFirst({ where: { name: 'Alice' } })`
+
+
+### ⚡ Error Handling and Disconnecting
+
+
+
 
 - Now just copy this following code and paste it in `script.ts` file
 
