@@ -528,7 +528,7 @@ generator class {
 Models represent tables in your database.
 Each model has a name, a type, and optional modifiers and attributes.
 
-### ⚡ Fields and types
+### ⚡ Fields 
 
 - Now open your `schema.prisma` file you will get this following code
 
@@ -567,7 +567,7 @@ model User {
 
 - Field attributes are keywords that start with `@` and provide additional information or functionality to the field. For example:
 
-* **Attributes** can be used to provide additional information about a field. The following are the supported attributes:
+* **Attributes** The following are the supported attributes:
   * **Id** - This attribute defines the field as the primary key of the model.
   * **Default** - This attribute defines the default value of the field.
   * **Description** - This attribute provides a description of the field.
@@ -593,6 +593,70 @@ In this example, the `id` field is the primary key of the model and is of type S
 
 > - The `@default` attribute defines the default value of the role field, which is an enum type.
 > - The `@enum` attribute defines a custom type that can only have one of a set of predefined values.
+
+
+
+### ⚡ Fields Types
+**Field types define the kind of data that a field can hold.**
+
+- Prisma provides a small number of core scalar types that cover most use cases. For example:
+  - String: A text value of any length
+  - Int: A whole number
+  - DateTime: A date and time value
+  - Boolean: A true or false value
+- Prisma also supports native types that are specific to the underlying database. For example:
+  - @db.VarChar(255): A text value with a maximum length of 255 characters
+  - @db.Date: A date-only value
+  - @db.Json: A JSON object value
+- Prisma allows you to use native type attributes to refine the core scalar types. For example:
+  - title String @db.VarChar(255): The title field is a String type with a native type of varchar(255)
+  - createdAt DateTime @db.Date: The createdAt field is a DateTime type with a native type of date
+- Prisma also supports custom types that can only have one of a set of predefined values. These are called enums. For example:
+  - enum Role { USER ADMIN }: The Role enum can only have the values USER or ADMIN
+
+Here is an example of how to use field types in a Prisma schema:
+
+```js
+model User {
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  role Role @default(USER)
+  posts Post[]
+}
+
+model Post {
+  id Int @id @default(autoincrement())
+  title String @db.VarChar(255)
+  content String?
+  published Boolean @default(false)
+  author User @relation(fields: [authorId], references: [id])
+  authorId Int
+  createdAt DateTime @db.Date
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+```
+In this example:
+
+- The User model has five fields:
+  - id: An Int type with an id attribute and a default value of autoincrement()
+  - name: A String type
+  - email: A String type with a unique attribute
+  - role: A Role type with a default value of USER
+  - posts: A list of Post types with a relation to the Post model
+- The Post model has six fields:
+  - id: An Int type with an id attribute and a default value of autoincrement()
+  - title: A String type with a native type of varchar(255)
+  - content: An optional String type
+  - published: A Boolean type with a default value of false
+  - author: A User type with a relation to the User model
+  - authorId: An Int type that stores the id of the related user
+  - createdAt: A DateTime type with a native type of date
+- The Role enum has two values: USER and ADMIN
 
 
 
