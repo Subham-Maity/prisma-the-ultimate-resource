@@ -658,8 +658,183 @@ In this example:
   - createdAt: A DateTime type with a native type of date
 - The Role enum has two values: USER and ADMIN
 
+### ⚡ Data Types
+
+- `String`: This is a text data type that can store any sequence of characters. It is mapped to the BSON `String` type.
+- `Boolean`: This is a logical data type that can store either `true` or `false`. It is mapped to the BSON `Boolean` type.
+- `Json`: This is a complex data type that can store any valid JSON value, such as objects, arrays, numbers, strings, booleans, or nulls. It is mapped to the BSON `Object` type.
+- `Bytes`: This is a binary data type that can store any sequence of bytes. It is useful for storing files or images. It is mapped to the BSON `Binary` type.
+- `Unsupported("")`: This is a special data type that can be used to represent any MongoDB-specific type that is not supported by Prisma, such as `ObjectId`, `Decimal128`, or `Timestamp`. You need to specify the name of the MongoDB type inside the parentheses.
+- `Float`: This is a numeric data type that can store decimal numbers with floating-point precision. It is mapped to the BSON `Double` type.
+- `DateTime`: This is a temporal data type that can store date and time values with millisecond precision. It is mapped to the BSON `Date` type.
+- `Int`: This is a numeric data type that can store integer numbers with 32-bit precision. It is mapped to the BSON `Int32` type.
+- `BigInt`: This is a numeric data type that can store integer numbers with 64-bit precision. It is mapped to the BSON `Int64` type.
+
+Here is an example of how you can use multiple data types in your Prisma schema for MongoDB:
+
+```prisma
+model User {
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ name String
+ email String
+ isAdmin Boolean
+ preferences Json
+ blog Bytes
+ likes Unsupported("Decimal128")
+}
+
+model Post {
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ rating Float
+ createdAt DateTime
+ updatedAt DateTime
+ views Int
+ comments BigInt
+}
+```
+
+In this example, the User model has fields of types String, Boolean, Json, Bytes, and Unsupported("Decimal128"). The Post model has fields of types String, Float, DateTime, Int, and BigInt.
 
 
+
+### ⚡ Fill with data and push to the database
+
+`schema.prisma`
+
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  name      String?
+  birthYear Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Post {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating    Float
+  createdAt DateTime
+  updatedAt DateTime
+  views     Int
+  comments  BigInt
+  title     String
+  content   String
+}
+```
+`script.ts`
+
+```ts
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+async function main() {
+    // create a new user with some email, name, birthYear and likes
+    const user = await prisma.user.create({
+        data: {
+            email: 'raja@gmail.com',
+            name: 'Raja',
+            birthYear: 1995,
+        },
+    })
+    console.log(user)
+
+    // create a new post with some rating, dates, views, comments, title and content
+    const post = await prisma.post.create({
+        data: {
+            rating: 4.5,
+            createdAt: new Date(),
+            updatedAt: new Date(),
+            views: 100,
+            comments: 10,
+            title: 'My first post',
+            content: 'Hello, this is my first post. I hope you like it.',
+        },
+    })
+    console.log(post)
+
+}
+
+main()
+    .catch(e => {
+        console.error(e.message)
+    })
+    .finally(async () => {
+            await prisma.$disconnect()
+        }
+    )
+
+```
+
+- Now run `prisma db push` to push the schema to the database and create the tables.
+- Now run `npm run dev` to run the script and fill the database with data.
+
+Open the MongoDB Compass and check the database.
+
+``Post``
+
+```ts
+{
+  "_id": {
+    "$oid": "6461467b9026468dc10be82e"
+  },
+  "rating": {
+    "$numberDouble": "4.5"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684096635529"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684096635529"
+    }
+  },
+  "views": {
+    "$numberLong": "100"
+  },
+  "comments": {
+    "$numberLong": "10"
+  },
+  "title": "My first post",
+          "content": "Hello, this is my first post. I hope you like it."
+}
+```
+
+``User``
+
+```ts
+{
+  "_id": {
+    "$oid": "646146799026468dc10be82d"
+  },
+  "email": "raja@gmail.com",
+          "name": "Raja",
+          "birthYear": {
+    "$numberLong": "1995"
+  },
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1684096632469"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1684096632469"
+    }
+  }
+}
+```
 
 
 
