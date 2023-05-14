@@ -1,5 +1,10 @@
 # Prisma: A Next-Generation ORM for Node.js and TypeScript 🚀
 
+## TOC 📋
+
+- [Introduction 📖](#introduction-)
+- [🤖 Setup Prisma](#-setup-prisma)
+************
 ## Introduction 📖
 
 If you work with databases and use Node.js or TypeScript, you might have come across Prisma. But what is Prisma and what makes it different from other ORM tools? In this article, we will explore how Prisma works, what problems it solves, why we use it, and how it compares to its competitors. We will also look at the reasons behind the development of this technology and the advantages it offers to you.
@@ -70,10 +75,10 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 | Step 2      | [**⚡ Install Prisma**](#-install-prisma)                               |                                                               | [**⚡ Prisma Generate**](#-prisma-generate)                                   | [**⚡ Nodemon Setup**](#-nodemon-setup)                                                   |
 | Step 3      | [**⚡ Install Prisma & TypeScript**](#-install-prisma--typescript)      |                                                               | [**⚡ Prisma Client in TypeScript**](#-prisma-client-in-typescript)           | [**⚡ Run your code and data in the database**](#-run-your-code-and-data-in-the-database) |
 | Step 4      | [**⚡ tsconfig.json**](#-tsconfigjson)                                  |                                                               | [**⚡ Error Handling and Disconnecting**](#-error-handling-and-disconnecting) | [**⚡ Another data in the database**](#-another-data-in-the-database)                     |   
-| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              |                                                                                          |
+| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              | [**⚡ Data source and generator**](#-data-source-and-generator)                           |
 | Step 6      | [**⚡ Prisma Format**](#-prisma-format)                                 |                                                               |                                                                              |                                                                                          |
 | Step 7      | [**⚡ Structure of a connection URL**](#-structure-of-a-connection-url) |                                                               |                                                                              |                                                                                          |
-| Step 8      |                                                                        |                                                               |                                                                              |                                                                                          |
+
 
 
 
@@ -452,3 +457,70 @@ async function main() {
 {"_id":{"$oid":"6460ead0dc57264f788c22f8"},"name":"Subham"}
 {"_id":{"$oid":"6460fa0e3b0ac81c87e56fb9"},"name":"Subhasish"}
 ```
+
+### ⚡ Data source and generator
+Before we dive into the complex part, we need to define a data source and a generator.
+
+* you can only have one single data source because Prisma directly connects to your database.
+* The data source must have a provider and a url to your database.
+```js
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+```
+> * The provider is the name of your database.
+> * The url links to your database.
+* It is important to use environment variables for storing your database url.
+* You can have multiple generators.
+
+Here are some more examples of multiple generators that you can use in your Prisma schema:
+
+`generator for Database Markup Language (DBML) using prisma-dbml-generator`
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator dbml {
+  provider = "prisma-dbml-generator"
+}
+```
+
+`generator for JSON schema using prisma-json-schema-generator`
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator jsonSchema {
+  provider = "prisma-json-schema-generator"
+}
+```
+
+`generator for TypeGraphQL using typegraphql-prisma`
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator typegraphql {
+  provider = "typegraphql-prisma"
+}
+```
+
+`generator for class-based entities`
+```js
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator class {
+  provider = "prisma-class-generator"
+}
+```
+* In our case, we will be using just one generator.
+* To define a generator, you give it a provider.
+* The provider links to the name of the generator.
+**********
+## 🤖 Models
