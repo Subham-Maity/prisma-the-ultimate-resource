@@ -63,28 +63,20 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 
 ## TOC 📋
 
-|             | **Part 1**                               | **Part 2**                                                              | **Part 3**                                            |
-|-------------|------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------|
-| **Steps**👇 | [**Installation 🚀**](#installation-)    | [**Prisma Schema Migrations 🚀**](#prisma-schema-migrations-)           | [**Prisma Client 🚀**](#-install-prisma)              |
-| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)          | [**⚡ Prisma Migrate**](#)                                               | [**⚡ Prisma Client**](#)                              |
-| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                | [****](#)                                                               | [**⚡ Prisma Generate**](#)                            |
-| Step 3      | [**⚡ Install Prisma & TypeScript**](#)   | [****](#)                                                               | [**⚡ Prisma Client in TypeScript**](#)                |
-| Step 4      | [**⚡ tsconfig.json**](#)                 | [****](#)                                                               | [**⚡ Error Handling and Disconnecting**](#)           |
-| Step 5      | [**⚡ Initialize prisma**](#)             | [****](#)                                                               | [****](#)                                             |
-| Step 6      | [**⚡ Prisma Format**](#)                 | [****](#)                                                               | [****](#)                                             |
-| Step 7      | [**⚡ Structure of a connection URL**](#) | [****](#)                                                               | [****](#)                                             |
-| Step 8      | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 9      | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 10     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 11     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 12     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 13     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 14     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
-| Step 15     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+|             | **Part 1 🚀**                                                          | **Part 2 🚀**                                                 | **Part 3 🚀**                                                                |
+|-------------|------------------------------------------------------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------|
+| **Steps**👇 | [**🔗 Installation**](#installation-)                                  | [**🔗 Prisma Schema Migrations**](#prisma-schema-migrations-) | [**🔗 Prisma Client**](#prisma-client-)                                      |
+| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)                   | [**⚡ Prisma Migrate**](#-prisma-migrate)                      | [**⚡ Prisma Client**](#-prisma-client)                                       |
+| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                               |                                                               | [**⚡ Prisma Generate**](#-prisma-generate)                                   |
+| Step 3      | [**⚡ Install Prisma & TypeScript**](#-install-prisma--typescript)      |                                                               | [**⚡ Prisma Client in TypeScript**](#-prisma-client-in-typescript)           |
+| Step 4      | [**⚡ tsconfig.json**](#-tsconfigjson)                                  |                                                               | [**⚡ Error Handling and Disconnecting**](#-error-handling-and-disconnecting) |
+| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              |
+| Step 6      | [**⚡ Prisma Format**](#-prisma-format)                                 |                                                               |                                                                              |
+| Step 7      | [**⚡ Structure of a connection URL**](#-structure-of-a-connection-url) |                                                               |                                                                              |
+| Step 8      |                                                                        |                                                               |                                                                              |
 
 
 
-[**⚡ Create a new project**](#-install-prisma)
 
 ## Installation 🚀
 
