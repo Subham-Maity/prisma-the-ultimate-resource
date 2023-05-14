@@ -100,3 +100,13 @@ npm i --save-dev prisma typescript ts-node @types/node nodemon
 }
 ```
 > TypeScript default configuration (tsconfig.json)
+- Now hit `npx prisma init --datasource-provider mongodb` to initialize Prisma in your project. This will create a new directory called prisma with the following files:
+```
+prisma
+├── schema.prisma
+└── .env
+```
+> - `npx prisma init --datasource-provider mongodb` this will initialize Prisma in your project and mongodb as the database provider.
+> - schema.prisma is the main configuration file for Prisma. It contains the database connection string and other settings.
+> - .env is a file that contains environment variables for your project. It is used by Prisma to store sensitive information such as database credentials.
+
