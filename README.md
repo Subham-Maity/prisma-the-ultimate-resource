@@ -18,7 +18,7 @@ Prisma Migrate is a tool that helps you manage database migrations. Database mig
 
 Prisma Studio is a graphical user interface that allows you to explore and manipulate data in your Prisma projects. You can navigate through tables, filter, paginate, follow relations, and edit your data safely.
 
-Prisma supports various databases, such as PostgreSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
+Prisma supports various databases, such as PostgresSQL, MySQL, SQLite, SQL Server, MongoDB, and CockroachDB.
 
 ### The Problems that Prisma Solves 🙌
 
@@ -59,21 +59,21 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 - **Enable modern development workflows**: They wanted to enable modern development workflows by supporting various databases and deployment options, as well as integrating well with popular frameworks and tools.
 
 **********
-# 🤖 Setup Prisma
+## 🤖 Setup Prisma
 
 ## TOC 📋
 
-|             | **Part 1 🚀**                                                          | **Part 2 🚀**                                                 | **Part 3 🚀**                                                                |
-|-------------|------------------------------------------------------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------|
-| **Steps**👇 | [**🔗 Installation**](#installation-)                                  | [**🔗 Prisma Schema Migrations**](#prisma-schema-migrations-) | [**🔗 Prisma Client**](#prisma-client-)                                      |
-| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)                   | [**⚡ Prisma Migrate**](#-prisma-migrate)                      | [**⚡ Prisma Client**](#-prisma-client)                                       |
-| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                               |                                                               | [**⚡ Prisma Generate**](#-prisma-generate)                                   |
-| Step 3      | [**⚡ Install Prisma & TypeScript**](#-install-prisma--typescript)      |                                                               | [**⚡ Prisma Client in TypeScript**](#-prisma-client-in-typescript)           |
-| Step 4      | [**⚡ tsconfig.json**](#-tsconfigjson)                                  |                                                               | [**⚡ Error Handling and Disconnecting**](#-error-handling-and-disconnecting) |
-| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              |
-| Step 6      | [**⚡ Prisma Format**](#-prisma-format)                                 |                                                               |                                                                              |
-| Step 7      | [**⚡ Structure of a connection URL**](#-structure-of-a-connection-url) |                                                               |                                                                              |
-| Step 8      |                                                                        |                                                               |                                                                              |
+|             | **Part 1 🚀**                                                          | **Part 2 🚀**                                                 | **Part 3 🚀**                                                                | **Part 4 🚀**                                                                            |
+|-------------|------------------------------------------------------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| **Steps**👇 | [**🔗 Installation**](#installation-)                                  | [**🔗 Prisma Schema Migrations**](#prisma-schema-migrations-) | [**🔗 Prisma Client**](#prisma-client-)                                      | [**🔗 Send queries to your Database**](#send-queries-to-your-database-)                  |
+| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)                   | [**⚡ Prisma Migrate**](#-prisma-migrate)                      | [**⚡ Prisma Client**](#-prisma-client)                                       | [**⚡ Create a new user in the database**](#-create-a-new-user-in-the-database)           |
+| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                               |                                                               | [**⚡ Prisma Generate**](#-prisma-generate)                                   | [**⚡ Nodemon Setup**](#-nodemon-setup)                                                   |
+| Step 3      | [**⚡ Install Prisma & TypeScript**](#-install-prisma--typescript)      |                                                               | [**⚡ Prisma Client in TypeScript**](#-prisma-client-in-typescript)           | [**⚡ Run your code and data in the database**](#-run-your-code-and-data-in-the-database) |
+| Step 4      | [**⚡ tsconfig.json**](#-tsconfigjson)                                  |                                                               | [**⚡ Error Handling and Disconnecting**](#-error-handling-and-disconnecting) | [**⚡ Another data in the database**](#-another-data-in-the-database)                     |   
+| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              |                                                                                          |
+| Step 6      | [**⚡ Prisma Format**](#-prisma-format)                                 |                                                               |                                                                              |                                                                                          |
+| Step 7      | [**⚡ Structure of a connection URL**](#-structure-of-a-connection-url) |                                                               |                                                                              |                                                                                          |
+| Step 8      |                                                                        |                                                               |                                                                              |                                                                                          |
 
 
 
@@ -210,7 +210,7 @@ _______
 
 
 > **Note**: This only for mongodb database provider.
-> If you are using other databases such as PostgreSQL, MySQL, SQLite, Microsoft SQL Server, and CockroachDB
+> If you are using other databases such as PostgresSQL, MySQL, SQLite, Microsoft SQL Server, and CockroachDB
 
 ### Prisma Client
 `schema.prisma`
@@ -225,7 +225,7 @@ model User {
 ```
 npx prisma migrate dev --name init --preview-feature
 ```
-#### PostgreSQL
+#### PostgresSQL
 `schema.prisma`
 ```
 model User {
@@ -319,19 +319,19 @@ npm i @prisma/client
 - To manually regenerate your Prisma Client, you can run `npx prisma generate`. This command generates the client based on the specified provider and stores it in the designated location. Once generated, you can start using the Prisma Client to interact with your database."
 
 `Bash`
-````
+```
 npx prisma generate
 Environment variables loaded from .env
 Prisma schema loaded from prisma\schema.prisma
 
 ✔ Generated Prisma Client (4.14.0 | library) to .\node_modules\@prisma\client in 77ms
 You can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
-```
+``
 import { PrismaClient } from '@prisma/client'
 const prisma = new PrismaClient()
-```
+``
 PS F:\mains\prisma-tutorial> 
-````
+```
 
 ### ⚡ Prisma Client in TypeScript
 
@@ -373,3 +373,82 @@ main()
 
 > Paste the provided code into `script.ts`. This code creates an async function called `main` and catches any errors. At the end, it disconnects from the Prisma database. This is not required but is good practice. Inside `main`, we can write our Prisma code. Using async/await makes it easier to work with Prisma since most of its operations are asynchronous."
 
+## Send queries to your Database 🚀
+
+- Inside the `main function` run queries
+
+### ⚡ Create a new user in the database
+
+```ts
+async function main() {
+    const user = await prisma.user.create({
+        data: {
+            name: 'Subham',
+        },
+    })
+    console.log(user)
+
+}
+```
+
+### ⚡ Nodemon Setup
+
+
+
+- Now open your package.json file and add this following code
+
+```json
+
+"scripts": {
+    "dev": "nodemon script.ts"
+  },
+
+```
+
+### ⚡ Run your code and data in the database
+
+- Now open your terminal and run this following command
+`bash`
+```
+npm run dev
+```
+
+You will get this following output  
+`bash`
+```
+{ id: '6460ead0dc57264f788c22f8', name: 'Subham' }
+```
+> Even if you check your mongo collection, you will get the same output
+
+### ⚡ Another data in the database
+
+- Now open your `script.ts` file and just change the name like this
+
+```ts
+
+async function main() {
+    const user = await prisma.user.create({
+        data: {
+            name: 'Subhasish',
+        },
+    })
+    console.log(user)
+
+    const allUsers = await prisma.user.findMany()
+    console.log(allUsers)
+}
+
+```
+
+- Now run your code again and you will get this following output
+- `bash`
+```
+[
+  { id: '6460fa0e3b0ac81c87e56fb9', name: 'Subhasish' }
+]
+```
+- Open your mongo collection and you will get the same output
+```
+{"_id":{"$oid":"6460ead0dc57264f788c22f8"},"name":"Subham"}
+{"_id":{"$oid":"6460fa0e3b0ac81c87e56fb9"},"name":"Subhasish"}
+```
