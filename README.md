@@ -532,8 +532,8 @@ Each model has a name, a type, and optional modifiers and attributes.
 
 ## TOC 📖
 - [Model Fields 🚀](#model-fields-)
-  - [⚡ Fields](#-fields-)
-  - [⚡ Field modifiers](#-field-modifiers-)
+  - [⚡ Fields](#-fields)
+  - [⚡ Field modifiers](#-field-modifiers)
   - [⚡ Field attributes](#-field-attributes)
   - [⚡ Fields Types](#-fields-types)
   - [⚡ Data Types](#-data-types)
@@ -541,7 +541,7 @@ Each model has a name, a type, and optional modifiers and attributes.
 
 ## Model Fields 🚀
 
-### ⚡ Fields 
+### ⚡ Fields
 
 - Now open your `schema.prisma` file you will get this following code
 
@@ -559,7 +559,7 @@ model User {
 > - The `@db.ObjectId` attribute defines the type of the field in the database.
 > - The `@db` attribute defines the type of the field in the database.
 
-### ⚡ Field modifiers 
+### ⚡ Field modifiers
 
 * **Field modifiers** can be used to change the behavior of a field. The following are the supported field modifiers:
   * **Optional** - This modifier makes the field optional. This means that the field can be null.
