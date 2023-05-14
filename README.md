@@ -63,11 +63,28 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 
 ## TOC 📋
 
-| **Steps** | **Part 1**                             | **Part 2**                                                       | **Part 3**                                 |
-|-----------|----------------------------------------|------------------------------------------------------------------|--------------------------------------------|
-|           |  [**Installation 🚀**](#installation-) | [**Prisma Schema Migrations 🚀**](#prisma-schema-migrations-)    | [**Prisma Client 🚀**](#-install-prisma)   |
-| Step 1    |                                        | [**Prisma Studio 🚀**](#prisma-studio-)                          | [**Prisma Studio 🚀**](#prisma-studio-)    |
-  
+|             | **Part 1**                               | **Part 2**                                                              | **Part 3**                                            |
+|-------------|------------------------------------------|-------------------------------------------------------------------------|-------------------------------------------------------|
+| **Steps**👇 | [**Installation 🚀**](#installation-)    | [**Prisma Schema Migrations 🚀**](#prisma-schema-migrations-)           | [**Prisma Client 🚀**](#-install-prisma)              |
+| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)          | [**⚡ Prisma Migrate**](#)                                               | [**⚡ Prisma Client**](#)                              |
+| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                | [****](#)                                                               | [**⚡ Prisma Generate**](#)                            |
+| Step 3      | [**⚡ Install Prisma & TypeScript**](#)   | [****](#)                                                               | [**⚡ Prisma Client in TypeScript**](#)                |
+| Step 4      | [**⚡ tsconfig.json**](#)                 | [****](#)                                                               | [**⚡ Error Handling and Disconnecting**](#)           |
+| Step 5      | [**⚡ Initialize prisma**](#)             | [****](#)                                                               | [****](#)                                             |
+| Step 6      | [**⚡ Prisma Format**](#)                 | [****](#)                                                               | [****](#)                                             |
+| Step 7      | [**⚡ Structure of a connection URL**](#) | [****](#)                                                               | [****](#)                                             |
+| Step 8      | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 9      | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 10     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 11     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 12     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 13     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 14     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+| Step 15     | [****](#)                                | [****](#)                                                               | [****](#)                                             |
+
+
+
+[**⚡ Create a new project**](#-install-prisma)
 
 ## Installation 🚀
 
@@ -146,7 +163,7 @@ mongodb://USERNAME:PASSWORD@HOST/DATABASE
 The following components make up the _base URL_ of your database:
 
 | Name     | Placeholder | Description                                                                                                                                                                                                                                                                                                                                                |
-| :------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|:---------|:------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | User     | `USERNAME`  | Name of your database user, e.g. `janedoe`                                                                                                                                                                                                                                                                                                                 |
 | Password | `PASSWORD`  | Password for your database user                                                                                                                                                                                                                                                                                                                            |
 | Host     | `HOST`      | The host where a [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#mongodb-binary-bin.mongod) instance is running. If you are running a sharded cluster this will a [`mongos`](https://docs.mongodb.com/manual/reference/program/mongos/#mongodb-binary-bin.mongos) instance. This can be a hostname, IP address or UNIX domain socket. |
@@ -158,7 +175,7 @@ The following components make up the _base URL_ of your database:
 
 
 
-> You must [percentage-encode special characters](/reference/database-reference/connection-urls#special-characters).
+> You must [percentage-encode special characters](https://www.prisma.io/docs/reference/database-reference/connection-urls).
 
 
 
