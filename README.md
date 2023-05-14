@@ -60,10 +60,8 @@ Prisma was developed by developers who were dissatisfied with the existing ORM t
 
 **********
 
-## Setup 🛠️
+## Installation 🚀
 
-
-### Prerequisites 📋
 
 - Create a new project directory and initialize it with npm:
 
@@ -109,4 +107,215 @@ prisma
 > - `npx prisma init --datasource-provider mongodb` this will initialize Prisma in your project and mongodb as the database provider.
 > - schema.prisma is the main configuration file for Prisma. It contains the database connection string and other settings.
 > - .env is a file that contains environment variables for your project. It is used by Prisma to store sensitive information such as database credentials.
+
+- If you want to format prisma schema file then you can use this command `npx prisma format`
+- GO to your .env file and add your database connection string in it.
+
+in my case, it is
+```
+DATABASE_URL="mongodb+srv://subham:subham@cluster0.w2xlwnd.mongodb.net/?retryWrites=true&w=majority"
+```
+![image](https://www.prisma.io/docs/static/b5ef4062c4686c772571b3079ba1331c/93a6a/mongodb.png)
+
+
+```
+mongodb://USERNAME:PASSWORD@HOST/DATABASE
+```
+
+The following components make up the _base URL_ of your database:
+
+| Name     | Placeholder | Description                                                                                                                                                                                                                                                                                                                                                |
+| :------- | :---------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| User     | `USERNAME`  | Name of your database user, e.g. `janedoe`                                                                                                                                                                                                                                                                                                                 |
+| Password | `PASSWORD`  | Password for your database user                                                                                                                                                                                                                                                                                                                            |
+| Host     | `HOST`      | The host where a [`mongod`](https://docs.mongodb.com/manual/reference/program/mongod/#mongodb-binary-bin.mongod) instance is running. If you are running a sharded cluster this will a [`mongos`](https://docs.mongodb.com/manual/reference/program/mongos/#mongodb-binary-bin.mongos) instance. This can be a hostname, IP address or UNIX domain socket. |
+| Port     | `PORT`      | Port on which your database server is running, e.g. `1234`. If none is provided the default `27017` is used.                                                                                                                                                                                                                                               |
+| Database | `DATABASE`  | Name of the database to use. If none is specified but the `authSource` option is set then the `authSource` database name is used. If neither the database in the connection string nor the `authSource` option is specified then it defaults to `admin`                                                                                                    |
+
+
+
+> You must [percentage-encode special characters](/reference/database-reference/connection-urls#special-characters).
+
+
+
+#### Arguments
+
+A connection URL can also take arguments. The following example sets three arguments:
+
+> - An `ssl` connection
+> - A `connectTimeoutMS`
+> - And the `maxPoolSize`
+
+```
+mongodb://USERNAME:PASSWORD@HOST/DATABASE?ssl=true&connectTimeoutMS=5000&maxPoolSize=50
+```
+
+Refer to the [MongoDB connection string documentation](https://docs.mongodb.com/manual/reference/connection-string/#connection-string-options) for a complete list of connection string arguments. There are no Prisma-specific arguments.
+
+## Prisma Schema Migrations 🚀
+
+- Open your schema.prisma file and add the following code to it:
+
+```
+model User {
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ name String
+}
+```
+> Defining the schema alone does not apply changes to the database. To apply the changes, we need to inform Prisma that we have finished making changes to the schema and want to migrate these changes to the database. This can be done by running a specific command.
+```
+npx prisma db push
+```
+
+******
+_______
+
+
+> **Note**: This only for mongodb database provider.
+> If you are using other databases such as PostgreSQL, MySQL, SQLite, Microsoft SQL Server, and CockroachDB
+
+### Prisma Client
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+#### PostgreSQL
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+
+#### MySQL
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+
+#### SQLite
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+
+#### Microsoft SQL Server
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+
+#### CockroachDB
+`schema.prisma`
+```
+model User {
+ id Int @id @default(autoincrement())
+ name String
+}
+
+```
+`migration command`
+```
+npx prisma migrate dev --name init --preview-feature
+```
+
+
+_________
+
+******
+
+
+## Prisma Client 🚀
+
+- When we create a new Prisma Client, it is generated in the `node_modules` folder at `prisma/client`. This client updates automatically whenever we make changes to our database, such as adding a new model. The client provides us with code for interacting with our database, including creating, reading, updating, and deleting data. To use the client, we need to install the `@prisma/client` library by running 
+```
+npm i @prisma/client
+```
+
+- To manually regenerate your Prisma Client, you can run `npx prisma generate`. This command generates the client based on the specified provider and stores it in the designated location. Once generated, you can start using the Prisma Client to interact with your database."
+
+`Bash`
+````
+npx prisma generate
+Environment variables loaded from .env
+Prisma schema loaded from prisma\schema.prisma
+
+✔ Generated Prisma Client (4.14.0 | library) to .\node_modules\@prisma\client in 77ms
+You can now start using Prisma Client in your code. Reference: https://pris.ly/d/client
+```
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+```
+PS F:\mains\prisma-tutorial> 
+````
+
+- Now create a new file called `script.ts` and add the following code that provided by prisma 
+
+```ts
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+```
+
+> This allows us to access our Prisma Client.We can use the `prisma.user` method to interact with the `User` table we created. 
+For example, we can use the `findFirst` method to find the first user based on specified criteria `prisma.user.findFirst({ where: { name: 'Alice' } })`
+
+- Now just copy this following code and paste it in `script.ts` file
+
+```ts
+import { PrismaClient } from '@prisma/client'
+const prisma = new PrismaClient()
+
+async function main() {
+
+}
+
+main()
+    .catch(e => {
+        console.error(e.message)
+    })
+    .finally(async () => {
+        await prisma.$disconnect()
+    }
+)
+```
+
+> Paste the provided code into `script.ts`. This code creates an async function called `main` and catches any errors. At the end, it disconnects from the Prisma database. This is not required but is good practice. Inside `main`, we can write our Prisma code. Using async/await makes it easier to work with Prisma since most of its operations are asynchronous."
 
