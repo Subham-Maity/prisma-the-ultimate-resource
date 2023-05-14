@@ -524,3 +524,78 @@ generator class {
 * The provider links to the name of the generator.
 **********
 ## 🤖 Models
+
+Models represent tables in your database.
+Each model has a name, a type, and optional modifiers and attributes.
+
+### ⚡ Fields and types
+
+- Now open your `schema.prisma` file you will get this following code
+
+```js
+model User {
+    id   String @id @default(auto()) @map("_id") @db.ObjectId
+    name String
+}
+```
+> - id is the primary key of the model and is of type String.
+> - name is a field of type String.
+> - The `@id` attribute defines the primary key of the model.
+> - The `@default` attribute defines the default value of the field.
+> - The `@map` attribute defines the name of the field in the database.
+> - The `@db.ObjectId` attribute defines the type of the field in the database.
+> - The `@db` attribute defines the type of the field in the database.
+
+### ⚡ Field modifiers 
+
+* **Field modifiers** can be used to change the behavior of a field. The following are the supported field modifiers:
+  * **Optional** - This modifier makes the field optional. This means that the field can be null.
+  * **List** - This modifier makes the field a list. This means that the field can contain multiple values.
+
+
+```js
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String?
+  email String @unique
+}
+```
+> - The `?` modifier makes the name field optional, meaning it can be null.
+> - The `@unique` attribute makes the email field unique, meaning it can only have one value in the database.
+
+### ⚡ Field attributes
+
+- Field attributes are keywords that start with `@` and provide additional information or functionality to the field. For example:
+
+* **Attributes** can be used to provide additional information about a field. The following are the supported attributes:
+  * **Id** - This attribute defines the field as the primary key of the model.
+  * **Default** - This attribute defines the default value of the field.
+  * **Description** - This attribute provides a description of the field.
+  * **Generated** - This attribute defines the field as generated. This means that the field will be automatically populated by the database.
+  * **Unique** - This attribute defines the field as unique. This means that the field can only contain unique values.
+  * **Index** - This attribute defines the field as indexed. This means that the field can be used to quickly search for records.
+  * **Nullable** - This attribute defines the field as nullable. This means that the field can be null.
+  * **Encrypted** - This attribute defines the field as encrypted. This means that the field will be stored in an encrypted format.
+
+Here is an example of how to use field modifiers and attributes:
+
+```js
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  email String @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+```
+
+In this example, the `id` field is the primary key of the model and is of type String. The `name` field is a field of type String. The `email` field is a unique field of type String. The `createdAt` field is a field of type DateTime that is automatically populated with the current date and time when the record is created. The `updatedAt` field is a field of type DateTime that is automatically populated with the current date and time when the record is updated.
+
+> - The `@default` attribute defines the default value of the role field, which is an enum type.
+> - The `@enum` attribute defines a custom type that can only have one of a set of predefined values.
+
+
+
+
+
+
