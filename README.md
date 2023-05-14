@@ -4,6 +4,7 @@
 
 - [Introduction 📖](#introduction-)
 - [🤖 Setup Prisma](#-setup-prisma)
+- [📁 Models](#-models)
 ************
 ## Introduction 📖
 
@@ -523,10 +524,22 @@ generator class {
 * To define a generator, you give it a provider.
 * The provider links to the name of the generator.
 **********
-## 🤖 Models
+## 📁 Models
 
 Models represent tables in your database.
 Each model has a name, a type, and optional modifiers and attributes.
+
+
+## TOC 📖
+- [Model Fields 🚀](#model-fields-)
+  - [⚡ Fields](#-fields-)
+  - [⚡ Field modifiers](#-field-modifiers-)
+  - [⚡ Field attributes](#-field-attributes)
+  - [⚡ Fields Types](#-fields-types)
+  - [⚡ Data Types](#-data-types)
+  - [⚡ Fill with data and push to the database](#-fill-with-data-and-push-to-the-database)
+
+## Model Fields 🚀
 
 ### ⚡ Fields 
 
@@ -835,6 +848,9 @@ Open the MongoDB Compass and check the database.
   }
 }
 ```
+
+
+## Model Relationships 🚀
 
 
 
