@@ -8,21 +8,27 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  email     String   @unique
-  name      String?
-  birthYear Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  email         String   @unique
+  name          String?
+  birthYear     Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  writtenPosts  Post[]   @relation("writtenPosts")
+  favoritePosts Post[]   @relation("favoritePosts")
 }
 
 model Post {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  rating    Float
-  createdAt DateTime
-  updatedAt DateTime
-  views     Int
-  comments  BigInt
-  title     String
-  content   String
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  rating        Float
+  createdAt     DateTime
+  updatedAt     DateTime
+  views         Int
+  comments      BigInt
+  title         String
+  content       String
+  author        User     @relation("writtenPosts", fields: [authorId], references: [id])
+  authorId      String   @db.ObjectId
+  favoritedBy   User?    @relation("favoritePosts", fields: [authorId], references: [id])
+  favoritedById String?
 }

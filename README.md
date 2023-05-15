@@ -538,6 +538,9 @@ Each model has a name, a type, and optional modifiers and attributes.
   - [⚡ Fields Types](#-fields-types)
   - [⚡ Data Types](#-data-types)
   - [⚡ Fill with data and push to the database](#-fill-with-data-and-push-to-the-database)
+- [Model Relationships 🚀](#model-relationships-)
+  - [⚡ Type of relationships](#-type-of-relationships)
+  - [⚡ One-to-many relationship](#-one-to-many-relationship)
 
 ## Model Fields 🚀
 
@@ -852,5 +855,114 @@ Open the MongoDB Compass and check the database.
 
 ## Model Relationships 🚀
 
+### ⚡ Type of relationships
+
+There are three main types of model relationships: one-to-many, many-to-many, and one-to-one.
+
+* **One-to-many relationship**
+
+A one-to-many relationship is a relationship between two models where one model can have many instances of the other model, but each instance of the other model can only belong to one instance of the first model. For example, a post can have many comments, but each comment can only belong to one post.
+
+* **Many-to-many relationship**
+
+A many-to-many relationship is a relationship between two models where each model can have many instances of the other model. For example, a post can have many categories, and a category can have many posts.
+
+* **One-to-one relationship**
+
+A one-to-one relationship is a relationship between two models where each model can only have one instance of the other model. For example, a user can only have one profile, and a profile can only belong to one user.
+
+Here are some examples of how model relationships can be used in real-world applications:
+
+* A blog application can use a one-to-many relationship between the `Post` model and the `Comment` model to store posts and comments.
+* An e-commerce application can use a many-to-many relationship between the `Product` model and the `Category` model to store products and categories.
+* A social media application can use a one-to-one relationship between the `User` model and the `Profile` model to store users and profiles.
 
 
+
+### ⚡ One-to-many relationship
+
+`schema.prisma`
+```ts
+model User {
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ // Other fields...
+ writtenPosts Post[] @relation("writtenPosts")
+ favoritePosts Post[] @relation("favoritePosts")
+
+}
+
+model Post {
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ // Other fields...
+ author User @relation("writtenPosts", fields: [authorId], references: [id])
+ authorId String @db.ObjectId
+ favoritedBy User? @relation("favoritePosts", fields: [authorId], references: [id])
+ favoritedById String?
+}
+```
+- This example involves two tables: `User` and `Post`.
+- They establish a one-to-many relationship, where:
+  - One user can write multiple posts.
+  - Each post can only have one author (user).
+- To create and maintain this relationship, we rely on two crucial elements:
+  - Primary key: A column that uniquely identifies each record in a table.
+    - In the `User` table, the primary key is represented by the `id` field.
+  - Foreign key: A column that refers to the primary key of another table.
+    - In the `Post` table, the foreign key is indicated by the `authorId` field.
+- The foreign key acts as a linkage between the two tables, enforcing the one-to-many relationship.
+  - Each post retains the `id` of its corresponding author in the `authorId` column.
+- Prisma's `@relation` attribute allows us to name the relationship and specify the involved fields:
+  - For instance, `@relation("writtenPosts", fields: [authorId], references: [id])` conveys:
+    - This represents the "writtenPosts" relationship.
+    - It employs the `authorId` field within the `Post` table to reference the `id` field in the `User` table.
+- Field type modifiers offer additional flexibility in specifying array and optional fields:
+  - An array signifies that a field can store multiple values of the same type.
+    - For example, `writtenPosts Post[]` denotes an array of `Post` objects within the `User` model.
+  - Optional implies that a field can be nullable or undefined.
+    - As an illustration, `favoritePost Post?` designates the `favoritePost` field as an optional `Post` object.
+
+**More Detailed** 
+
+```ts
+// Define a model for the User table
+model User {
+ // Declare a field for the user id, which is the primary key
+ // Use the @id attribute to mark it as unique and required
+ // Use the @default attribute to auto-generate the value
+ // Use the @map attribute to specify the underlying database column name
+ // Use the @db attribute to indicate the data type of the column
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ // Other fields...
+ // Declare a field for the posts written by the user
+ // Use an array type to indicate that one user can have many posts
+ // Use the @relation attribute to name the relationship and reference the Post model
+ writtenPosts Post[] @relation("writtenPosts")
+ // Declare a field for the posts favorited by the user
+ // Use an array type to indicate that one user can have many favorite posts
+ // Use the @relation attribute to name the relationship and reference the Post model
+ favoritePosts Post[] @relation("favoritePosts")
+
+}
+
+// Define a model for the Post table
+model Post {
+ // Declare a field for the post id, which is the primary key
+ // Use the same attributes as in the User model
+ id String @id @default(auto()) @map("_id") @db.ObjectId
+ // Other fields...
+ // Declare a field for the author of the post, which is a foreign key referencing the User model
+ // Use the @relation attribute to name the relationship and specify the involved fields
+ author User @relation("writtenPosts", fields: [authorId], references: [id])
+ // Declare a field for storing the author id, which is the actual foreign key column in the database
+ // Use the @db attribute to indicate the data type of the column
+ authorId String @db.ObjectId
+ // Declare a field for the user who favorited the post, which is an optional foreign key referencing the User model
+ // Use an optional type modifier (?) to indicate that this field can be null or undefined
+ // Use the @relation attribute to name the relationship and specify the involved fields
+ favoritedBy User? @relation("favoritePosts", fields: [authorId], references: [id])
+ // Declare a field for storing the favorited by id, which is an optional foreign key column in the database
+ // Use an optional type modifier (?) to indicate that this field can be null or undefined
+ favoritedById String?
+}
+
+```
