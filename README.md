@@ -144,7 +144,7 @@ prisma
 
 ### ⚡ Prisma Format
 
-- If you want to format prisma schema file then you can use this command `npx prisma format`
+- If you want to format prisma schema file, then you can use this command `npx prisma format`
 - GO to your .env file and add your database connection string in it.
 
 in my case, it is
@@ -206,7 +206,7 @@ model User {
  name String
 }
 ```
-> Defining the schema alone does not apply changes to the database. To apply the changes, we need to inform Prisma that we have finished making changes to the schema and want to migrate these changes to the database. This can be done by running a specific command.
+> Defining the schema alone does not apply changes to the database. To apply the changes, we need to inform Prisma that we have finished making changes to the schema and wanting to migrate these changes to the database. This can be done by running a specific command.
 ```
 npx prisma db push
 ```
@@ -215,7 +215,7 @@ npx prisma db push
 _______
 
 
-> **Note**: This only for mongodb database provider.
+> **Note**: This is only for mongodb database provider.
 > If you are using other databases such as PostgresSQL, MySQL, SQLite, Microsoft SQL Server, and CockroachDB
 
 ### Prisma Client
@@ -377,7 +377,7 @@ main()
 )
 ```
 
-> Paste the provided code into `script.ts`. This code creates an async function called `main` and catches any errors. At the end, it disconnects from the Prisma database. This is not required but is good practice. Inside `main`, we can write our Prisma code. Using async/await makes it easier to work with Prisma since most of its operations are asynchronous."
+> Paste the provided code into `script.ts`. This code creates an async function called `main` and catches any errors. In the end, it disconnects from the Prisma database. This is not required but is good practice. Inside `main`, we can write our Prisma code. Using async/await makes it easier to work with Prisma since most of its operations are asynchronous."
 
 ## Send queries to your Database 🚀
 
@@ -446,14 +446,14 @@ async function main() {
 
 ```
 
-- Now run your code again and you will get this following output
+- Now run your code again, and you will get this following output
 - `bash`
 ```
 [
   { id: '6460fa0e3b0ac81c87e56fb9', name: 'Subhasish' }
 ]
 ```
-- Open your mongo collection and you will get the same output
+- Open your mongo collection, and you will get the same output
 ```
 {"_id":{"$oid":"6460ead0dc57264f788c22f8"},"name":"Subham"}
 {"_id":{"$oid":"6460fa0e3b0ac81c87e56fb9"},"name":"Subhasish"}
@@ -541,7 +541,8 @@ Each model has a name, a type, and optional modifiers and attributes.
 - [Model Relationships 🚀](#model-relationships-)
   - [⚡ Type of relationships](#-type-of-relationships)
   - [⚡ One-to-many relationship](#-one-to-many-relationship)
-
+  - [⚡ Many-to-many relationship](#-many-to-many-relationship)
+  - [⚡ One-to-one relationship](#-one-to-one-relationship)
 ## Model Fields 🚀
 
 ### ⚡ Fields
@@ -608,7 +609,7 @@ model User {
 In this example, the `id` field is the primary key of the model and is of type String. The `name` field is a field of type String. The `email` field is a unique field of type String. The `createdAt` field is a field of type DateTime that is automatically populated with the current date and time when the record is created. The `updatedAt` field is a field of type DateTime that is automatically populated with the current date and time when the record is updated.
 
 > - The `@default` attribute defines the default value of the role field, which is an enum type.
-> - The `@enum` attribute defines a custom type that can only have one of a set of predefined values.
+> - The `@enum` attribute defines a custom type that can only have one of sets of predefined values.
 
 
 
@@ -627,7 +628,7 @@ In this example, the `id` field is the primary key of the model and is of type S
 - Prisma allows you to use native type attributes to refine the core scalar types. For example:
   - title String @db.VarChar(255): The title field is a String type with a native type of varchar(255)
   - createdAt DateTime @db.Date: The createdAt field is a DateTime type with a native type of date
-- Prisma also supports custom types that can only have one of a set of predefined values. These are called enums. For example:
+- Prisma also supports custom types that can only have one of sets of predefined values. These are called enums. For example:
   - enum Role { USER ADMIN }: The Role enum can only have the values USER or ADMIN
 
 Here is an example of how to use field types in a Prisma schema:
@@ -680,7 +681,7 @@ In this example:
 - `Boolean`: This is a logical data type that can store either `true` or `false`. It is mapped to the BSON `Boolean` type.
 - `Json`: This is a complex data type that can store any valid JSON value, such as objects, arrays, numbers, strings, booleans, or nulls. It is mapped to the BSON `Object` type.
 - `Bytes`: This is a binary data type that can store any sequence of bytes. It is useful for storing files or images. It is mapped to the BSON `Binary` type.
-- `Unsupported("")`: This is a special data type that can be used to represent any MongoDB-specific type that is not supported by Prisma, such as `ObjectId`, `Decimal128`, or `Timestamp`. You need to specify the name of the MongoDB type inside the parentheses.
+- `Unsupported("")`: This is a special data type that can be used to represent any MongoDB-specific type that is not supported by Prisma such as `ObjectId`, `Decimal128`, or `Timestamp`. You need to specify the name of the MongoDB type inside the parentheses.
 - `Float`: This is a numeric data type that can store decimal numbers with floating-point precision. It is mapped to the BSON `Double` type.
 - `DateTime`: This is a temporal data type that can store date and time values with millisecond precision. It is mapped to the BSON `Date` type.
 - `Int`: This is a numeric data type that can store integer numbers with 32-bit precision. It is mapped to the BSON `Int32` type.
@@ -966,3 +967,92 @@ model Post {
 }
 
 ```
+
+### ⚡ Many-to-many relationship
+
+
+
+```ts
+generator client {
+provider = "prisma-client-js"
+}
+
+datasource db {
+provider = "mongodb"
+url      = env("DATABASE_URL")
+}
+
+model User {
+  // Other fields...
+}
+
+model Post {
+  // Other fields...
+categoryId    String?   @db.ObjectId
+}
+
+model Category {
+id    String @id @default(auto()) @map("_id") @db.ObjectId
+name  String
+posts Post[]
+}
+```
+
+- In Prisma, when you establish a relationship between models, Prisma takes care of the necessary setup for that relationship.
+- For a many-to-many relationship, like the one between `Post` and `Category`, Prisma automatically creates a join table behind the scenes.
+- This join table serves to connect the `Post` and `Category` models, enabling you to associate multiple categories with multiple posts without needing to manually configure a join table.
+- Let's break down the schema and understand how this works:
+
+  - The `Category` model represents a category and has a field called `posts` defined as `Post[]`. This means that a category can have multiple posts associated with it.
+  - The `Post` model represents a post and has a field called `Category` defined as `Category?`. This indicates that a post can be associated with a single category. The `categoryId` field in the `Post` model serves as the foreign key that references the `id` field in the `Category` model.
+  - By defining the `posts` field as `Post[]` in the `Category` model and the `Category` field as `Category?` in the `Post` model, you establish a many-to-many relationship between them.
+  - Prisma automatically creates a join table in the database to manage this relationship. The join table connects the posts and categories, allowing you to associate multiple categories with multiple posts seamlessly.
+
+In summary, with the given schema, Prisma takes care of the join table creation and relationship management for you.
+You can simply use the `posts` field in the `Category` model to access the associated posts,
+and the `Category` field in the `Post` model to access the associated category.
+Prisma abstracts away the complexities of the join table,
+making it easier for you to work with the many-to-many relationship between posts and categories.
+
+
+### ⚡ One-to-one relationship
+
+```ts
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  // Other fields...
+  UserPreferences UserPreferences?
+}
+
+model UserPreferences {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String  @unique @db.ObjectId
+}
+
+model Post {
+  // Other fields...
+}
+
+model Category {
+  // Other fields...
+}
+```
+The `UserPreferences` model represents a one-to-one relationship.
+
+
+- The `User` model has a field called `UserPreferences` defined as `UserPreferences?`. The `?` indicates that it's an optional field, meaning a `User` may or may not have associated `UserPreferences`.
+- The `UserPreferences` model has a field called `user` defined as `User`. This establishes a one-to-one relationship between `UserPreferences` and `User`.
+- The `userId` field in the `UserPreferences` model serves as the foreign key that references the `id` field in the `User` model.
+- By defining the `user` field in the `UserPreferences` model and the `UserPreferences` field in the `User` model, you establish the one-to-one relationship between them.
+
+In summary, the one-to-one relationship exists between the `User` model and the `UserPreferences` model. Each `User` can have at most one associated `UserPreferences`, and each `UserPreferences` can be associated with only one `User`.
