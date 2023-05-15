@@ -11,6 +11,7 @@ model User {
   id              String           @id @default(auto()) @map("_id") @db.ObjectId
   email           String           @unique
   name            String?
+  age             Int
   birthYear       Int?
   isAdmin         Boolean          @default(false)
   createdAt       DateTime         @default(now())
@@ -18,8 +19,12 @@ model User {
   writtenPosts    Post[]           @relation("writtenPosts")
   favoritePosts   Post[]           @relation("favoritePosts")
   UserPreferences UserPreferences?
+
+  @@unique([age, name, birthYear])
+  @@index([name])
 }
 
+// one to one
 model UserPreferences {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   emailUpdates Boolean
@@ -27,11 +32,12 @@ model UserPreferences {
   userId       String  @unique @db.ObjectId
 }
 
+// one to many
 model Post {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   rating        Float
-  createdAt     DateTime
-  updatedAt     DateTime
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   views         Int
   comments      BigInt
   title         String
@@ -44,8 +50,9 @@ model Post {
   categoryId    String?   @db.ObjectId
 }
 
+// many to many
 model Category {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
-  name  String
+  name  String @unique
   posts Post[]
 }

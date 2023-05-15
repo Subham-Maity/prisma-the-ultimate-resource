@@ -1056,3 +1056,195 @@ The `UserPreferences` model represents a one-to-one relationship.
 - By defining the `user` field in the `UserPreferences` model and the `UserPreferences` field in the `User` model, you establish the one-to-one relationship between them.
 
 In summary, the one-to-one relationship exists between the `User` model and the `UserPreferences` model. Each `User` can have at most one associated `UserPreferences`, and each `UserPreferences` can be associated with only one `User`.
+
+
+## Model Attributes 🚀
+
+```ts
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  email           String           @unique
+  name            String?
+  age             Int
+  birthYear       Int?
+  isAdmin         Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  writtenPosts    Post[]           @relation("writtenPosts")
+  favoritePosts   Post[]           @relation("favoritePosts")
+  UserPreferences UserPreferences?
+
+  @@unique([age, name, birthYear])
+  @@index([name])
+}
+
+// one to one
+model UserPreferences {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String  @unique @db.ObjectId
+}
+
+// one to many
+model Post {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  rating        Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  views         Int
+  comments      BigInt
+  title         String
+  content       String
+  author        User      @relation("writtenPosts", fields: [authorId], references: [id])
+  authorId      String    @db.ObjectId
+  favoritedBy   User?     @relation("favoritePosts", fields: [authorId], references: [id])
+  favoritedById String?
+  Category      Category? @relation(fields: [categoryId], references: [id])
+  categoryId    String?   @db.ObjectId
+}
+
+// many to many
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[]
+}
+
+```
+
+
+- A model is a representation of an entity in your application domain, such as a User, Post, or Category.
+- A model maps to a table or collection in your database and forms the basis of the queries available in Prisma Client.
+- A model has the following attributes:
+
+### ⚡ Fields
+
+- These are the properties of the model, such as id, name, email, etc.
+- Each field has a name and a type, which can be a scalar type (such as String, Int, Boolean, etc.), an enum type (a predefined set of values), or a relation type (a reference to another model).
+- Fields can also have modifiers that change their behavior, such as:
+
+### ⚡ Fields Modifiers
+
+#### 🔗 @id: 
+- to mark the field as the primary key
+  - Example: `id String @id @default(auto()) @map("_id") @db.ObjectId`
+#### 🔗  @unique: 
+- to enforce uniqueness
+  - Example: `email String @unique`
+#### 🔗  @default: 
+- to provide a default value
+  - Example: `isAdmin Boolean @default(false)`
+#### 🔗 @relation: 
+- to define the relation to another model
+  - Example: `author User @relation("writtenPosts", fields: [authorId], references: [id])`
+#### 🔗 @map: 
+- to specify the name of the database column
+  - Example: `id String @id @default(auto()) @map("_id") @db.ObjectId`
+#### 🔗 @db: 
+- to specify the database type of the field
+  - Example: `id String @id @default(auto()) @map("_id") @db.ObjectId`
+#### 🔗 @nullable: 
+- to specify whether the field can be null
+    - Example: `name String?`
+#### 🔗 @type:
+- to specify the type of the field
+  - Example: `comments BigInt`
+#### 🔗 @description: 
+- to provide a description of the field
+  - Example: `@description("The title of the post") title String`
+
+### ⚡ Indexes
+
+- These are used to optimize the performance of queries that involve certain fields.
+- You can define a unique index (@@unique) or a non-unique index (@@index) on one or more fields of a model.
+- You can also specify the name of the index and the sorting order of the fields.
+  - Example: `@@unique([age, name, birthYear])`
+  - Example: `@@index([name])`
+
+> This means age, name, and birthYear together form a unique index, and must be unique together. name is a non-unique index.
+
+### ⚡ Schema
+
+- This is an optional attribute that specifies the database schema that the model belongs to.
+- This is useful when you have multiple schemas in your database and want to map them to different models.
+- You can use the @@schema attribute to provide the name of the schema for a model.
+  - Example: `@@schema("base")`
+
+### ⚡ Block-Level Attributes
+
+- These are attributes that apply to the whole model rather than individual fields.
+- They are written after all the fields of the model and start with @@.
+- The following block-level attributes are available:
+
+#### 🔗 @@unique
+
+- This attribute defines a unique constraint on a field or on a set of fields.
+- A unique constraint ensures that no two instances of the model can have the same value for the field or for the set of fields.
+  - Example: `@@unique([age, name, birthYear])`
+
+#### 🔗 @@index
+
+- This attribute creates an index on a set of fields.
+- An index can improve the performance of queries that are performed on the set of fields.
+  - Example: `@@index([name])`
+
+
+There are some other attributes that are available at the block level, such as:
+
+#### 🔗  @@map
+
+- This attribute can be used to specify the name of the database table or collection that corresponds to a model. The @@map attribute is only necessary if the name of the database table or collection is different from the name of the model.
+  - Example: `@@map("users")`
+
+#### 🔗 @@id
+
+- This attribute can be used to define a multi-field primary key for a model. The @@id attribute takes an array of field names that make up the primary key. The fields must be marked as @unique or have an @@unique index defined on them.
+  - Example: `@@id([firstName, lastName])`
+
+#### 🔗 @@db
+
+- This attribute can be used to specify the database schema that the model belongs to. The @@db attribute is only necessary if you have multiple schemas in your database and want to map them to different models. The @@db attribute takes the name of the schema as an argument.
+  - Example: `@@db("base")`
+
+#### 🔗 @ignore
+
+- This attribute can be used to ignore a field. The @ignore attribute is useful when you want to exclude a field from the Prisma schema.
+- Example: `@ignore`
+
+#### 🔗 @default
+
+- This attribute can be used to specify the default value for a field. The @default attribute takes a value as an argument.
+- Example: `@default("John Doe")`
+
+#### 🔗 @description
+
+- This attribute can be used to provide a description of a field. The @description attribute takes a string as an argument.
+- Example: `@description("The title of the post")`
+
+#### 🔗 @updatedAt
+
+- This attribute can be used to specify the field that stores the last updated timestamp of a model. The @updatedAt attribute takes no arguments and automatically updates the field value whenever the model is updated.
+- Example: `@updatedAt`
+
+#### 🔗 @createdAt
+
+- This attribute can be used to specify the field that stores the creation timestamp of a model. The @createdAt attribute takes no arguments and automatically sets the field value when the model is created.
+- Example: `@createdAt`
+
+
+
+
+
+
+
+
