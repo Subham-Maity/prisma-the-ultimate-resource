@@ -543,6 +543,34 @@ Each model has a name, a type, and optional modifiers and attributes.
   - [⚡ One-to-many relationship](#-one-to-many-relationship)
   - [⚡ Many-to-many relationship](#-many-to-many-relationship)
   - [⚡ One-to-one relationship](#-one-to-one-relationship)
+- [Model Attributes 🚀](#model-attributes-)
+  - [⚡ Fields](#-field)
+  - [⚡ Fields Modifiers](#-fields-modifiers)
+     - [🔗 @id:](#-id-)
+     - [🔗 @unique:](#-unique-)
+     - [🔗 @default:](#-default-)
+     - [🔗 @relation:](#-relation-)
+     - [🔗 @map:](#-map-)
+     - [🔗 @db:](#-db-)
+     - [🔗 @nullable:](#-nullable-)
+     - [🔗 @type:](#-type)
+     - [🔗 @description:](#-description-)
+  - [⚡ Indexes](#-indexes)
+  - [⚡ Schema](#-schema)
+  - [⚡ Block-Level Attributes](#-block-level-attributes)
+    - [🔗 @@unique](#-unique)
+    - [🔗 @@index](#-index)
+    - [🔗 @@map](#-map)
+    - [🔗 @@id](#-id)
+    - [🔗 @@db](#-db)
+    - [🔗 @ignore](#-ignore)
+    - [🔗 @default](#-default)
+    - [🔗 @description](#-description)
+    - [🔗 @updatedAt](#-updatedat)
+    - [🔗 @createdAt](#-createdat)
+
+
+
 ## Model Fields 🚀
 
 ### ⚡ Fields
@@ -1127,7 +1155,7 @@ model Category {
 - A model maps to a table or collection in your database and forms the basis of the queries available in Prisma Client.
 - A model has the following attributes:
 
-### ⚡ Fields
+### ⚡ Field
 
 - These are the properties of the model, such as id, name, email, etc.
 - Each field has a name and a type, which can be a scalar type (such as String, Int, Boolean, etc.), an enum type (a predefined set of values), or a relation type (a reference to another model).
