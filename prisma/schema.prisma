@@ -10,6 +10,7 @@ datasource db {
 model User {
   id              String           @id @default(auto()) @map("_id") @db.ObjectId
   email           String           @unique
+  role            Role             @default(BASIC)
   name            String?
   age             Int
   birthYear       Int?
@@ -55,4 +56,9 @@ model Category {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   name  String @unique
   posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
 }

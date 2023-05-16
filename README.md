@@ -2,8 +2,21 @@
 
 ## TOC 📋
 
-- [Introduction 📖](#introduction-)
-- [🤖 Setup Prisma](#-setup-prisma)
+- ###  [Introduction 📖](#introduction-)
+- ### [🤖 Setup Prisma](#-setup-prisma)
+
+|             | **Part 1 🚀**                                                          | **Part 2 🚀**                                                 | **Part 3 🚀**                                                                | **Part 4 🚀**                                                                            |
+|-------------|------------------------------------------------------------------------|---------------------------------------------------------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| **Steps**👇 | [**🔗 Installation**](#installation-)                                  | [**🔗 Prisma Schema Migrations**](#prisma-schema-migrations-) | [**🔗 Prisma Client**](#prisma-client-)                                      | [**🔗 Send queries to your Database**](#send-queries-to-your-database-)                  |
+| Step 1      | [**⚡ Create a new project**](#-create-a-new-project)                   | [**⚡ Prisma Migrate**](#-prisma-migrate)                      | [**⚡ Prisma Client**](#-prisma-client)                                       | [**⚡ Create a new user in the database**](#-create-a-new-user-in-the-database)           |
+| Step 2      | [**⚡ Install Prisma**](#-install-prisma)                               |                                                               | [**⚡ Prisma Generate**](#-prisma-generate)                                   | [**⚡ Nodemon Setup**](#-nodemon-setup)                                                   |
+| Step 3      | [**⚡ Install Prisma & TypeScript**](#-install-prisma--typescript)      |                                                               | [**⚡ Prisma Client in TypeScript**](#-prisma-client-in-typescript)           | [**⚡ Run your code and data in the database**](#-run-your-code-and-data-in-the-database) |
+| Step 4      | [**⚡ tsconfig.json**](#-tsconfigjson)                                  |                                                               | [**⚡ Error Handling and Disconnecting**](#-error-handling-and-disconnecting) | [**⚡ Another data in the database**](#-another-data-in-the-database)                     |   
+| Step 5      | [**⚡ Initialize prisma**](#-initialize-prisma)                         |                                                               |                                                                              | [**⚡ Data source and generator**](#-data-source-and-generator)                           |
+| Step 6      | [**⚡ Prisma Format**](#-prisma-format)                                 |                                                               |                                                                              |                                                                                          |
+| Step 7      | [**⚡ Structure of a connection URL**](#-structure-of-a-connection-url) |                                                               |                                                                              |                                                                                          |
+
+
 - [📁 Models](#-models)
 ************
 ## Introduction 📖
@@ -1236,7 +1249,7 @@ There are some other attributes that are available at the block level, such as:
 
 #### 🔗 @@id
 
-- This attribute can be used to define a multi-field primary key for a model. The @@id attribute takes an array of field names that make up the primary key. The fields must be marked as @unique or have an @@unique index defined on them.
+- This attribute can be used to define a multi-field primary key for a model. The @@id attribute takes an array of field names that make up the primary key. The fields must be marked as @unique or have a @@unique index defined on them.
   - Example: `@@id([firstName, lastName])`
 
 #### 🔗 @@db
