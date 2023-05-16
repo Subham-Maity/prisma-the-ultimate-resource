@@ -1285,9 +1285,147 @@ There are some other attributes that are available at the block level, such as:
 - Example: `@createdAt`
 
 
+## Enum 🚀
 
 
+**What is an enum?**
+
+An enum is a data type that can only have a limited number of values. In Prisma, enums are defined within the `enum` block in the Prisma schema.
+
+### ⚡ Defining an enum
 
 
+To define an enum in Prisma, you need to specify the name of the enum and the possible values. For example, the following code defines an enum called `Role` with two possible values: `BASIC` and `ADMIN`:
+
+```prisma
+enum Role {
+  BASIC
+  ADMIN
+}
+```
+
+**How to use an enum in Prisma**
+
+Once you have defined an enum, you can use it in your Prisma schema to define the possible values for a field. For example, the following code defines a field called `role` of type `Role` on the `User` model:
+
+```prisma
+model User {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String @unique
+  role Role @default(BASIC)
+  name String?
+  age Int
+  birthYear Int?
+  isAdmin Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  writtenPosts Post[] @relation("writtenPosts")
+  favoritePosts Post[] @relation("favoritePosts")
+  UserPreferences UserPreferences? @@unique([age, name, birthYear]) @@index([name])
+}
+```
+
+**Advantages of using enums in Prisma**
+
+There are several advantages to using enums in Prisma:
+
+* **Enum values are enforced at both the Prisma Client level and the database level.** This means that you can be sure that only valid values will be assigned to the field.
+* **Enum values can be extended easily.** If you need to add new values to an enum, you can do so without having to change your Prisma schema or your database.
+* **Enum values can be used to improve code readability and maintainability.** By using enums, you can make your code more readable and easier to maintain.
 
 
+**Migrating with enums**
+
+When you migrate your Prisma schema to a database, enums are automatically added to the database schema. This ensures that your data is always consistent with the values defined in your Prisma schema.
+
+Alright, I will try to make it more concise and to the point. Here is a revised version of the delete operation methods for prisma:
+
+I did use the select option in the fetch section, but I can add another example in the delete section as well. Here is another version of the cheat sheet:
+
+## CRUD Operation 🚀
+
+### ⚡ Delete Operation
+
+#### 🔗 delete a record
+
+- Use the delete method to delete a single record from a collection by its unique identifier. The method returns a promise that resolves to the deleted record. You need to specify the where option in the query to match the record by its unique field and value.
+
+```js
+const deleted = await prisma.user.delete({
+  where: {
+    id: id,
+  },
+})
+```
+
+> - The where option is used to specify the condition for finding or deleting records. It takes an object that contains the fields and values that you want to match.
+
+#### 🔗 delete multiple records
+
+- Use the deleteMany method to delete multiple records from a collection that match a certain condition. The method returns a promise that resolves to an object with a count property that indicates the number of records that were deleted. You can use the where option in the query to filter the records by their fields and values.
+
+```js
+const deleted = await prisma.user.deleteMany({
+  where: {
+    active: false,
+  },
+})
+```
+
+#### 🔗 fetch related data with delete
+
+- Use the include or select options in the query to fetch related data along with the deleted record. The include option takes an object that specifies the relations to be fetched. The select option takes an object that specifies the fields to be fetched from the deleted record and its relations. You can use these options to get more information about the deleted record and its impact on other collections.
+
+```js
+const deleted = await prisma.post.delete({
+  where: {
+    id: id,
+  },
+  include: {
+    author: true,
+    comments: true,
+  },
+})
+```
+
+> - The include option is used to fetch related data along with the deleted record. It takes an object that specifies the relations to be fetched.
+> - The select option is used to fetch specific fields from the deleted record and its relations. It takes an object that specifies the fields to be fetched.
+
+```js
+const deleted = await prisma.post.delete({
+  where: {
+    id: id,
+  },
+  select: {
+    title: true,
+    author: {
+      select: {
+        name: true,
+      },
+    },
+  },
+})
+```
+
+#### 🔗 update related data with delete
+
+- Use the update option in the query to update related data after deleting a record. The update option takes an object that specifies the fields and values to be updated on the related records. You can use this option to perform cascading updates or deletions on other collections that are affected by the deletion of a record.
+
+```js
+const deleted = await prisma.comment.delete({
+  where: {
+    id: id,
+  },
+  update: {
+    post: {
+      update: {
+        commentCount: {
+          decrement: 1,
+        },
+      },
+    },
+  },
+})
+```
+
+> - The update option is used to update related data after deleting a record. It takes an object that specifies the fields and values to be updated on the related records.
