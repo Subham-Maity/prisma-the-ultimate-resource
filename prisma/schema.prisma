@@ -17,18 +17,18 @@ model User {
   updatedAt       DateTime         @updatedAt
   writtenPosts    Post[]           @relation("writtenPosts")
   favoritePosts   Post[]           @relation("favoritePosts")
-  UserPreferences UserPreferences?
 
+  userPreference         UserPreference?    @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId       String?  @unique @db.ObjectId
   @@unique([age, name])
   @@index([name])
 }
 
 // one to one
-model UserPreferences {
+model UserPreference {
   id           String  @id @default(auto()) @map("_id") @db.ObjectId
   emailUpdates Boolean
-  user         User    @relation(fields: [userId], references: [id])
-  userId       String  @unique @db.ObjectId
+  User User?
 }
 
 // one to many

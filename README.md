@@ -583,6 +583,13 @@ Each model has a name, a type, and optional modifiers and attributes.
     - [🔗 @description](#-description)
     - [🔗 @updatedAt](#-updatedat)
     - [🔗 @createdAt](#-createdat)
+- [CRUD Operation 🚀](#crud-operation-)
+  - [⚡ Delete Operation](#-delete-operation)
+    - [🔗 delete a record](#-delete-a-record)
+    - [🔗 delete multiple records](#-delete-multiple-records)
+    - [🔗 fetch related data with delete](#-fetch-related-data-with-delete)
+    - [🔗 update related data with delete](#-update-related-data-with-delete)
+
 
 
 
@@ -1429,3 +1436,89 @@ const deleted = await prisma.comment.delete({
 ```
 
 > - The update option is used to update related data after deleting a record. It takes an object that specifies the fields and values to be updated on the related records.
+
+
+### ⚡ Create Operation
+
+#### 🔗 Create a record
+
+- Use the create method to create a new record in a collection. The method returns a promise that resolves to the created record. You need to specify the data option in the query to set the fields and values of the new record.
+
+```js
+async function main() {
+  const user = await prisma.user.create({
+    data: {
+      name: 'Subham',
+      email: 'maitysubham4041@gmail.com',
+      age: 21,
+
+    },
+  })
+  console.log(user)
+
+}
+```
+
+In your terminal, run the following command to create a new record in the User collection:
+
+```bash
+npm run dev
+```
+You will see the following output in your terminal:
+> ALso, you can see this in your database
+
+```bash
+{
+  id: '6469f437cf4d75bbd42010c4',
+  email: 'maitysubham4041@gmail.com',
+  role: 'BASIC',
+  name: 'Subham',
+  age: 21,
+  createdAt: 2023-05-21T10:36:37.953Z,
+  updatedAt: 2023-05-21T10:36:37.953Z
+}
+```
+> 🚫 If you run again `npm run dev` then you will and error like this:
+```bash
+
+  2 const prisma = new PrismaClient()
+  3
+  4 async function main() {
+→ 5     const user = await prisma.user.create(
+Unique constraint failed on the constraint: `User_email_key`
+```
+> This is because we have already created a user with the same email. So, we need to change the email to create a new user.
+
+⭐ That's why we are going to use the `deleteMany` method before creating a new user.
+
+
+```js
+async function main() {
+
+  await prisma.user.deleteMany()
+  const user = await prisma.user.create({
+    data: {
+      name: 'Subham',
+      email: 'maitysubham4041@gmail.com',
+      age: 21,
+
+    },
+  })
+  console.log(user)
+
+}
+```
+Now if you run `npm run dev` then you will see the output like this:
+
+```bash
+{
+  id: '6469fab4ed1f1ab1dee26b71',
+  email: 'maitysubham4041@gmail.com',
+  role: 'BASIC',
+  name: 'Subham',
+  age: 21,
+  createdAt: 2023-05-21T11:04:20.868Z,
+  updatedAt: 2023-05-21T11:04:20.868Z
+}
+```
+> It's going to delete all the users that currently exist in the database and then create a new user with the same email, so now we can easily experiment with the create method.
