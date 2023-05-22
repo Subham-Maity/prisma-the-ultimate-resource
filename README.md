@@ -1671,3 +1671,18 @@ model UserPreference {
 
 By making this change, you're shifting the responsibility of the foreign key to the `User` model. Now, when you delete a user, it won't violate the foreign key constraint because the user preference is no longer referencing the user.
 
+Now if you run `npm run dev` then you will see the output like this:
+
+```bash
+{
+  id: '646b817d1acc70f38e773631',
+  email: 'maitysubham4041@gmail.com',
+  role: 'BASIC',
+  name: 'Subham',
+  age: 21,
+  createdAt: 2023-05-22T14:51:41.047Z,
+  updatedAt: 2023-05-22T14:51:41.047Z,
+  userPreferenceId: '646b817d1acc70f38e773630',
+  userPreference: { id: '646b817d1acc70f38e773630', emailUpdates: true }
+}
+```
