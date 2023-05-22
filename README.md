@@ -1478,6 +1478,9 @@ You will see the following output in your terminal:
   updatedAt: 2023-05-21T10:36:37.953Z
 }
 ```
+
+##### 🚫  Problem 1 (Unique constraint failed on the constraint)
+
 > 🚫 If you run again `npm run dev` then you will and error like this:
 ```bash
 
@@ -1522,3 +1525,149 @@ Now if you run `npm run dev` then you will see the output like this:
 }
 ```
 > It's going to delete all the users that currently exist in the database and then create a new user with the same email, so now we can easily experiment with the create method.
+
+##### 🚫  Problem 2 (Foreign key constraint failed on the field)
+
+> You will notice If I do something like this, I'll get an error like this:
+
+```js
+async function main() {
+
+    await prisma.user.deleteMany()
+    const user = await prisma.user.create({
+        data: {
+            name: 'Subham',
+            email: 'maitysubham4041@gmail.com',
+            age: 21,
+            userPreference: {
+                create: {
+                    emailUpdates: true,
+                },
+            },
+
+        },
+        include: {
+            userPreference: true,
+        }
+
+    })
+    console.log(user)
+
+}
+```
+`error`
+```ts
+Foreign key constraint failed on the field: `UserPreference_userId_fkey (inde)`
+```
+Our schema now looks like this:
+
+```ts
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String           @id @default(auto()) @map("_id") @db.ObjectId
+  email           String           @unique
+  role            Role             @default(BASIC)
+  name            String?
+  age             Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  writtenPosts    Post[]           @relation("writtenPosts")
+  favoritePosts   Post[]           @relation("favoritePosts")
+  UserPreferences UserPreferences?
+
+  @@unique([age, name])
+  @@index([name])
+}
+
+// one to one
+model UserPreferences {
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  emailUpdates Boolean
+  user         User    @relation(fields: [userId], references: [id])
+  userId       String  @unique @db.ObjectId
+}
+
+// one to many
+model Post {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  rating        Float
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  views         Int
+  comments      BigInt
+  title         String
+  content       String
+  author        User      @relation("writtenPosts", fields: [authorId], references: [id])
+  authorId      String    @db.ObjectId
+  favoritedBy   User?     @relation("favoritePosts", fields: [authorId], references: [id])
+  favoritedById String?
+  Category      Category? @relation(fields: [categoryId], references: [id])
+  categoryId    String?   @db.ObjectId
+}
+
+// many to many
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[]
+}
+
+enum Role {
+  BASIC
+  ADMIN
+}
+```
+So the reason why we're getting this error? 
+
+The error you're encountering is related to a foreign key constraint violation when trying to delete a user. This error occurs because you're attempting to delete a user using the `deleteMany` method, but the user is referenced in the `UserPreferences` collection. Therefore, the database doesn't allow deleting the user preference because it is still associated with the user.
+
+In your schema, you have a one-to-one relationship between `User` and `UserPreferences` models:
+
+```ts
+model User {
+  // ...
+  UserPreferences UserPreferences?
+  // ...
+}
+
+model UserPreferences {
+  // ...
+  user User @relation(fields: [userId], references: [id])
+  userId String @unique @db.ObjectId
+  // ...
+}
+```
+
+
+##### How to solve this problem?
+
+
+The foreign key constraint is defined in the `UserPreferences` model, where the `user` field references the `id` field in the `User` model.
+
+To solve this problem, you can swap the relationship and change the foreign key to be stored in the `User` model instead. Here's the updated schema:
+
+```ts
+model User {
+  // ...
+  userPreference UserPreference? @relation(fields: [userPreferenceId], references: [id])
+  userPreferenceId String? @unique @db.ObjectId
+  // ...
+}
+
+model UserPreference {
+  // ...
+  User User?
+  // ...
+}
+```
+
+By making this change, you're shifting the responsibility of the foreign key to the `User` model. Now, when you delete a user, it won't violate the foreign key constraint because the user preference is no longer referencing the user.
+
