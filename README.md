@@ -1686,3 +1686,47 @@ Now if you run `npm run dev` then you will see the output like this:
   userPreference: { id: '646b817d1acc70f38e773630', emailUpdates: true }
 }
 ```
+##### 🚫  Problem 3 (include to select)
+Because in the script.ts we include the userPreference like this:
+```js
+ include: {
+            userPreference: true,
+        }
+```
+So if you run `npm run dev` then you will see the output like this:
+
+```bash
+userPreference: { id: '646b817d1acc70f38e773630', emailUpdates: true }
+```
+But we don't want to show the userPreference so we have change include to select like this:
+```js
+ select: {
+  userPreference: true,
+}
+```
+
+- Even select can do multiple things like this:
+```js
+ select: {
+  userPreference: {
+    select: {
+      emailUpdates: true
+    }
+  },
+}
+```
+> Now if you run `npm run dev` then you will see the output like this:
+```bash
+userPreference: { emailUpdates: true }
+```
+- You can also show the name of the user like this:
+```js
+ select: {
+  name: true
+}
+```
+> Now if you run `npm run dev` then you will see the output like this:
+```bash
+name: 'Subham'
+```
+
